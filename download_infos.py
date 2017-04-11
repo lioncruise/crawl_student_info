@@ -13,7 +13,7 @@ DBSession = sessionmaker(bind=engine)
 class StudentInfoSpider(scrapy.Spider):
     name = 'student_info_spider'
     base_url = 'http://xueji.ucas.ac.cn/record/iframeB1?id='
-    start_urls = [base_url + str(i) for i in range(394935, 460000)]
+    start_urls = [base_url + str(i) for i in range(394935, 406000)]
 
     def parse(self, response):
         name = response.css('td.a152')[0].css('td ::text').extract_first()  # name
