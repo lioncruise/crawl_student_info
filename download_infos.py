@@ -1,7 +1,7 @@
 # coding: utf-8
 
 import scrapy
-from sqlalchemy import Column, Integer, String, create_engine
+from sqlalchemy import Column, Integer, String, TEXT, create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -13,7 +13,7 @@ DBSession = sessionmaker(bind=engine)
 class StudentInfoSpider(scrapy.Spider):
     name = 'student_info_spider'
     base_url = 'http://xueji.ucas.ac.cn/record/iframeB1?id='
-    start_urls = [base_url + str(i) for i in range(394935, 406000)]
+    start_urls = [base_url + str(i) for i in range(358612, 408200)]
 
     def parse(self, response):
         name = response.css('td.a152')[0].css('td ::text').extract_first()  # name
@@ -27,11 +27,13 @@ class StudentInfoSpider(scrapy.Spider):
         avatar_url = response.css('div.a157 > img ::attr(src)').extract_first()  # xueji_url
         phone = response.css('td.a130')[1].css('td ::text').extract_first()  # phone
         degree = response.css('td.a27')[0].css('td ::text').extract_first()  # xuewei
+        gender = response.css('td.a146')[0].css('td ::text').extract_first()  # gender
+        family = response.css('td.a54')[0].css('td ::text').extract_first()  # family
 
         session = DBSession()
         new_user = Student(name=name, birthday=birthday, school=school, institute=institute, id_no=id_no,
                            address=address, hometown=hometown, student_no=student_no, avatar_url=avatar_url,
-                           phone=phone, degree=degree)
+                           phone=phone, degree=degree, gender=gender, family=family)
         session.add(new_user)
         session.commit()
         session.close()
@@ -52,3 +54,5 @@ class Student(Base):
     avatar_url = Column(String(255))
     phone = Column(String(255))
     degree = Column(String(255))
+    gender = Column(String(255))
+    family = Column(TEXT)

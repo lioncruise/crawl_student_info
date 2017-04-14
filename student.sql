@@ -11,5 +11,7 @@ CREATE TABLE `student` (
   `avatar_url` varchar(255) DEFAULT NULL,
   `phone` varchar(255) DEFAULT NULL,
   `degree` varchar(255) DEFAULT NULL,
+  `gender` varchar(255) DEFAULT NULL,
+  `family` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15705 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15706 DEFAULT CHARSET=utf8;
